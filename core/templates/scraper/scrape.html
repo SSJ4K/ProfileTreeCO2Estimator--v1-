@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Analyze{% endblock %}
+
+{% block content %}
+
+<section class="section-home">
+  <div class="home-text-content">
+     <h3>Analyze your website</h3>
+     <p>Enter the URL of the web page that you would like to analyze.</p>
+     <p>Please note that it will take a few moments for us to fully process your website.</p>
+     <div>
+        <p1>Enter your website address:</p1>
+        {% if error %}
+        <div class="form-error" style="margin-top: 20px;">
+            {{ error }}
+        </div>
+       {% endif %}
+        <div>
+           <form action="" method="post">
+              {% csrf_token %}
+              <input type="text" name="url" id="url" placeholder="https://www.your-website.com" class="url">
+              <button type="submit" class="calculate-button">
+              Calculate
+              </button>
+           </form>
+           <div>
+           </div>
+        </div>
+     </div>
+  </div>
+  <div class="home-image-content">
+     <img src="{% static '/images/home-image1.webp' %}" alt="Italian Trulli" width="630" height="630">
+  </div>
+</section>
+{% endblock %}

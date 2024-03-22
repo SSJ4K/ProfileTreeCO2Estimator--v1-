@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h3 style="text-align: center">Delete website report</h3>
+  <section class="section-home">
+    <div class="home-text-content" style="margin-bottom: 350px">
+      <p>Are you sure you want to delete the report for {{ website_report.url }}?</p>
+      <form method="post" action="{% url 'delete_website_report' website_report.id %}">
+        {% csrf_token %}
+        <button type="submit" class="btn-delete">Delete</button>
+        <a href="{% url 'list_website_reports' %}" class="btn">Cancel</a>
+      </form>
+    </div>
+  </section>
+{% endblock %}

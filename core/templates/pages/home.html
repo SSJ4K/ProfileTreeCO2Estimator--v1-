@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<section class="section-home">
+  <div class="home-text-content">
+     <h3>Welcome to Carbon Footprint Checker</h3>
+     <p>Carbon Footprint Checker is a website that helps you to calculate your carbon footprint, which is the total amount                 of greenhouse gases emitted by an individual or organization.</p>
+     <p> It's a measure of the impact of our actions on the environment and is a significant contributor to global warming                   and climate change. It is a measure of the greenhouse effect.
+     <div class="btn-area">
+        <a href="{% url 'register' %}" class="btn-lg">Get Started</a>
+        <a href="{% url 'about' %}" class="btn-lg-orange">Learn More</a>
+     </div>
+  </div>
+  <div class="home-image-content">
+     <img src="{% static '/images/home-image1.webp' %}" alt="" width="630" height="630">
+  </div>
+</section>
+{% endblock %}

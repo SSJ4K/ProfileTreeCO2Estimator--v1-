@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+
+{% block title %}Results{% endblock %}
+
+{% block content %}
+<h3 style="text-align: center">Results for {{ website.url }}</h3>
+<div class="info-area">
+   <div class="score">
+      <h4 style="text-align: center;">Your web page's score is: {{ carbon_footprint_report.carbon_footprint_score|floatformat:4 }} Carbon Dioxide Equivalent (CO2e)</h4>
+   </div>
+   <div class="copy">
+      <button class="btn btn-copy">Click to copy link to this report</button>
+   </div>
+</div>
+<div class="chart-row-1">
+   <div class="chart-card">
+      {{ bar_chart_data|safe }} 
+   </div>
+   <div class="chart-card">
+      {{ pie_chart_data|safe }}
+   </div>
+</div>
+<div class="chart-row-1">
+   <div class="chart-card">
+      {{ top_websites_bar_chart_data|safe }}
+   </div>
+   <div class="chart-card">
+      {{ carbon_footprint_chart_data|safe }}
+   </div>
+</div>
+<div class="chart-row-1">
+   <div class="chart-card">
+      {{ co2_line_chart_data|safe }}
+   </div>
+</div>
+<div class="recommendations">
+   <h3>Green hosting recommendations</h3>
+   <p>Here are some green website hosting platforms that you could consider using</p>
+   <table class="table">
+      <thead>
+         <tr>
+            <th>Name</th>
+            <th>Sustainability Info</th>
+            <th>URL</th>
+         </tr>
+      </thead>
+      <tbody>
+         {% for hosting_provider in hosting_providers %}
+         <tr>
+            <td>{{ hosting_provider.name }}</td>
+            <td>{{ hosting_provider.sustainability_info }}</td>
+            <td><a href="{{ hosting_provider.url }}">Link</a></td>
+         {% endfor %}
+      </tbody>
+   </table>
+</div>
+{% endblock %}
+
+{% block javascript %}
+<script>
+    // Select the button using its class
+    const btn = document.querySelector('.btn.btn-copy');
+
+    // Add a click event listener to the button
+    btn.addEventListener('click', function() {
+    // Copy the current page URL to the clipboard
+    navigator.clipboard.writeText(window.location.href)
+        .then(() => {
+        // Display a message to the user
+        alert('Link copied to clipboard!');
+        })
+        .catch(err => {
+        console.error('Could not copy text: ', err);
+        });
+    });
+
+    // Parse the URL to get the hostname
+    const url = new URL('{{ website.url }}');
+    const hostname = url.hostname;
+
+    // Fetch the green status of the website
+    fetch(`https://api.thegreenwebfoundation.org/api/v3/greencheck/${encodeURIComponent(hostname)}`)
+        .then(response => response.json())
+        .then(data => {
+            let message;
+            let color;
+            if (data.green) {
+                message = `This website is hosted on a green platform by ${data.hosted_by}.`;
+                color = '#33BC77';
+            } else {
+                message = 'This website is not hosted on a green platform.';
+                color = '#ff0000';
+            }
+            // Display the message
+            const scoreDiv = document.querySelector('.info-area .score');
+            const p = document.createElement('p');
+            p.textContent = message;
+            p.style.color = color;
+            scoreDiv.appendChild(p);
+        })
+        .catch(err => {
+            console.error('Error:', err);
+            const message = 'This website is not hosted on a green platform.';
+            // Display the message
+            const scoreDiv = document.querySelector('.info-area .score');
+            const p = document.createElement('p');
+            p.textContent = message;
+            p.style.color = 'red';
+            scoreDiv.appendChild(p);
+        });
+</script>
+{% endblock %}

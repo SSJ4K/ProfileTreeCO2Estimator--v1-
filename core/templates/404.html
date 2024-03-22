@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}Error{% endblock %}
+
+{% block content %}
+<section class="section-home">
+    <div class="home-text-content">
+      <h3 style="font-size: 20vw; margin: 5vw">404</h3>
+      <p>It looks like you're lost, nothing was found at this location</p>
+      <div style="margin-top: 1vw">
+        <button onclick="window.location.href='index.html';">
+          Return to Homepage
+        </button>
+      </div>
+    </div>
+    <div class="home-image-content">
+      <img src="assets/home-image1.webp" alt="Italian Trulli" width="630" height="630">
+    </div>
+  </section>
+{% endblock %}

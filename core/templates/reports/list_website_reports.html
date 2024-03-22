@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h3 style="text-align: left;">Your website reports</h3>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>URL</th>
+        <th>Pages</th>
+        <th>Created At</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for report in website_reports %}
+        <tr>
+          <td>{{ report.url }}</td>
+          <td>{{ report.pages }}</td>
+          <td>{{ report.created_at }}</td>
+          <td>
+            <a href="{% url 'show_website_report' report.id %}" class="btn">View</a>
+            <a href="{% url 'delete_website_report' report.id %}" class="btn-delete">Delete</a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <div class="pagination">
+    {% if website_reports.has_previous %}
+        <a href="?page={{ website_reports.previous_page_number }}"><button class="prev-page">Previous</button></a>
+    {% else %}
+        <button class="prev-page" disabled>Previous</button>
+    {% endif %}
+    
+    {% for num in page_range %}
+        {% if num <= 5 %}
+            {% if num == website_reports.number %}
+                <span class="page-number active">Page {{ num }}</span>
+            {% else %}
+                <a href="?page={{ num }}"><span class="page-number">Page {{ num }}</span></a>
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+    
+    {% if website_reports.has_next %}
+        <a href="?page={{ website_reports.next_page_number }}"><button class="next-page">Next</button></a>
+    {% else %}
+        <button class="next-page" disabled>Next</button>
+    {% endif %}
+</div>
+{% endblock content %}
+

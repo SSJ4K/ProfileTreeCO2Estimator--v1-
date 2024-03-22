@@ -1,0 +1,6 @@
+django
+beautifulsoup4
+requests
+plotly
+psycopg2
+cssutils

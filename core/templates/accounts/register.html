@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+<section class="section-home">
+    <div class="container">
+        <form class="register-form" action="#" method="post">
+            <h3>Register</h3>
+            {% csrf_token %}
+            
+            {% for field in form %}
+            <div class="input-group">
+                <p for="{{ field.id_for_label }}">{{ field.label }}</p>
+                {{ field }}
+                {% for error in field.errors %}
+                    <div class="form-error">{{ error }}</div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+
+            <button type="submit">Register</button>
+
+            <p>Already have an account?</p>
+            <a href="{% url 'login' %}" class="btn">Login</a>
+        </form>
+    </div>
+</section>
+{% endblock %}
